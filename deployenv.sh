@@ -27,19 +27,19 @@ cd ..
 cp keepalived-2.0.6/bin/keepalived ${KEEPALIVED_PATH}/
 rm -rf keepalived-2.0.6
 
-echo "========解压etcd v3.3.8========="
-# curl -O https://github.com/coreos/etcd/releases/download/v3.3.8/etcd-v3.3.8-linux-amd64.tar.gz
+echo "========解压etcd v3.4.20========="
+# curl -O https://github.com/coreos/etcd/releases/download/v3.4.20/etcd-v3.4.20-linux-amd64.tar.gz
 mkdir -p ${ETCD_PATH}
-tar -xzvf etcd-v3.3.8-linux-amd64.tar.gz \
-etcd-v3.3.8-linux-amd64/etcd*
+tar -xzvf etcd-v3.4.20-linux-amd64.tar.gz \
+etcd-v3.4.20-linux-amd64/etcd*
 if [ $? -ne 0 ];then exit 1; fi
-cp etcd-v3.3.8-linux-amd64/etcd* ${ETCD_PATH}/
-rm -rf etcd-v3.3.8-linux-amd64
+cp etcd-v3.4.20-linux-amd64/etcd* ${ETCD_PATH}/
+rm -rf etcd-v3.4.20-linux-amd64
 
-echo "========解压flannel v0.10.0========="
-#curl -O https://github.com/coreos/flannel/releases/download/v0.10.0/flannel-v0.10.0-linux-amd64.tar.gz
+echo "========解压flannel v0.19.0========="
+#curl -O https://github.com/coreos/flannel/releases/download/v0.19.0/flannel-v0.19.0-linux-amd64.tar.gz
 mkdir -p ${FLANNEL_PATH}
-tar -xzvf flannel-v0.10.0-linux-amd64.tar.gz -C ${FLANNEL_PATH}
+tar -xzvf flannel-v0.19.0-linux-amd64.tar.gz -C ${FLANNEL_PATH}
 if [ $? -ne 0 ];then exit 1; fi
 
 echo "========解压kubernetes v1.11.0========="

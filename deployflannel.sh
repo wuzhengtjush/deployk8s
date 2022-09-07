@@ -39,10 +39,10 @@ ls ${FLANNEL_PATH}/flanneld*.pem
 echo "=========向etcd写入集群Pod网段信息========="
 etcdctl \
 --endpoints=${ETCD_ENDPOINTS} \
---ca-file=/etc/kubernetes/cert/ca.pem \
---cert-file=${FLANNEL_PATH}/flanneld.pem \
---key-file=${FLANNEL_PATH}/flanneld-key.pem \
-set ${FLANNEL_ETCD_PREFIX}/config '{"Network":"'${CLUSTER_CIDR}'", 
+--cacert=/etc/kubernetes/cert/ca.pem \
+--cert=${FLANNEL_PATH}/flanneld.pem \
+--key=${FLANNEL_PATH}/flanneld-key.pem \
+put ${FLANNEL_ETCD_PREFIX}/config '{"Network":"'${CLUSTER_CIDR}'", 
 "SubnetLen": 24, "Backend": {"Type": "vxlan"}}'
 
 # 创建flanneld的systemd unit文件
@@ -113,9 +113,9 @@ for node_ip in ${NODE_IPS[@]}
     ssh root@${node_ip} "
       etcdctl \
       --endpoints=${ETCD_ENDPOINTS} \
-      --ca-file=/etc/kubernetes/cert/ca.pem \
-      --cert-file=/etc/flanneld/cert/flanneld.pem \
-      --key-file=/etc/flanneld/cert/flanneld-key.pem \
+      --cacert=/etc/kubernetes/cert/ca.pem \
+      --cert=/etc/flanneld/cert/flanneld.pem \
+      --key=/etc/flanneld/cert/flanneld-key.pem \
       get ${FLANNEL_ETCD_PREFIX}/config"
     if [ $? -ne 0 ];then echo "查看集群Pod网段失败，退出脚本";exit 1;fi
 
@@ -123,10 +123,10 @@ for node_ip in ${NODE_IPS[@]}
     ssh root@${node_ip} "
       etcdctl \
       --endpoints=${ETCD_ENDPOINTS} \
-      --ca-file=/etc/kubernetes/cert/ca.pem \
-      --cert-file=/etc/flanneld/cert/flanneld.pem \
-      --key-file=/etc/flanneld/cert/flanneld-key.pem \
-      ls ${FLANNEL_ETCD_PREFIX}/subnets"
+      --cacert=/etc/kubernetes/cert/ca.pem \
+      --cert=/etc/flanneld/cert/flanneld.pem \
+      --key=/etc/flanneld/cert/flanneld-key.pem \
+      get ${FLANNEL_ETCD_PREFIX}/subnets"
     if [ $? -ne 0 ];then echo "查看已分配的Pod子网段列表失败，退出脚本";exit 1;fi
 
     echo "验证各节点能通过Pod网段互通"
