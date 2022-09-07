@@ -78,8 +78,9 @@ ExecStart=/usr/local/bin/kube-apiserver \\
   --anonymous-auth=false \\
   --experimental-encryption-provider-config=/etc/kubernetes/encryption-config.yaml \\
   --advertise-address=##NODE_IP## \\
+  --kubelet-https=false\\
   --bind-address=##NODE_IP## \\
-  --insecure-port=0 \\
+# --insecure-port=0 \\
   --authorization-mode=Node,RBAC \\
   --runtime-config=api/all \\
   --enable-bootstrap-token-auth \\
